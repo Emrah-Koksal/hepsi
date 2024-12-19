@@ -87,41 +87,32 @@ public class NavigateToWebSite {
 
     @When("Compare prices and select the cheapest one")
     public void comparePricesAndSelectTheCheapestOne() {
+        int index=0;
+        double lowestPrice = Double.MAX_VALUE;
 
-        List<Double> prices = new ArrayList<>();
-        for (WebElement webElement : iphone.listedPrice) {
-            int indexOfCut = webElement.getText().length() - 4;
-            String editedPriceText = webElement.getText().replace(".", "").replace(",", ".").substring(0, indexOfCut);
-            prices.add(Double.valueOf(editedPriceText));
-            System.out.println("webElement.getText() = " + editedPriceText);
+        for (int i = 0; i < iphone.listedPrice.size(); i++) {
+            int indexOfCut = iphone.listedPrice.get(i).getText().length() - 4;
+            String editedPriceText = iphone.listedPrice.get(i).getText().replace(".", "").replace(",", ".").substring(0, indexOfCut);
+            double price = Double.valueOf(editedPriceText);
+
+            if (price<lowestPrice){
+                index=i;
+                lowestPrice=price;
+            }
         }
-        Double lowestPrice = Collections.min(prices);
-
-        // Print the lowest price
         System.out.println("The lowest price is: " + lowestPrice);
 
-        if (iphone.digerSatıcılarAnaPencere.isDisplayed()) {
-
-            if (lowestPrice.equals(prices.get(0))) {
-                iphone.sepeteEkle.click();
-            } else if (lowestPrice.equals(prices.get(1))) {
-                iphone.uruneGit.get(0).click();
-                BrowserUtils.waitFor(2);
-                iphone.sepeteEkle.click();
-            } else if (lowestPrice.equals(prices.get(2))) {
-                iphone.uruneGit.get(1).click();
-                BrowserUtils.waitFor(2);
-                iphone.sepeteEkle.click();
-            }
-        } else {
-            iphone.sepeteEkle.click();
+        if (index>0){
+            iphone.uruneGit.get(index-1).click();
         }
-
+        iphone.sepeteEkle.click();
     }
 
     @Then("verify product is added to cart")
     public void verifyProductIsAddedToCart() {
-        Assert.assertEquals("ürün sepetinizde listelenmedi"," Ürün sepetinizde",iphone.ürünSepetinizde.getText());
+        BrowserUtils.waitFor(5);
+        System.out.println("iphone.ürünSepetinizde.getAttribute(\"innerHTML\") = " + iphone.ürünSepetinizde.getAttribute("innerHTML"));
+        Assert.assertEquals("ürün sepetinizde listelenmedi","Ürün sepetinizde",iphone.ürünSepetinizde.getText());
     }
 
 
