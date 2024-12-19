@@ -1,5 +1,6 @@
 package com.hepsiBurada.step_definitions;
 
+import com.hepsiBurada.pages.Cart;
 import com.hepsiBurada.pages.Elektronik;
 import com.hepsiBurada.pages.Iphone;
 import com.hepsiBurada.utilities.BrowserUtils;
@@ -7,7 +8,9 @@ import com.hepsiBurada.utilities.Driver;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.java.eo.Do;
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -23,6 +26,7 @@ public class NavigateToWebSite {
 
     Elektronik elektronik = new Elektronik();
     Iphone iphone = new Iphone();
+    Cart cart = new Cart();
     public WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(30));
 
 
@@ -44,6 +48,7 @@ public class NavigateToWebSite {
         System.out.println("Driver.get().getTitle() = " + Driver.get().getTitle());
 
     }
+
     boolean degerlendirmeExist = true;
 
     @And("Hit değerlendirmeler and Rank according to En Yeni Değerlendirme give thumbsUp")
@@ -87,23 +92,22 @@ public class NavigateToWebSite {
 
     @When("Compare prices and select the cheapest one")
     public void comparePricesAndSelectTheCheapestOne() {
-        int index=0;
+        int index = 0;
         double lowestPrice = Double.MAX_VALUE;
 
         for (int i = 0; i < iphone.listedPrice.size(); i++) {
-            int indexOfCut = iphone.listedPrice.get(i).getText().length() - 4;
-            String editedPriceText = iphone.listedPrice.get(i).getText().replace(".", "").replace(",", ".").substring(0, indexOfCut);
-            double price = Double.valueOf(editedPriceText);
 
-            if (price<lowestPrice){
-                index=i;
-                lowestPrice=price;
+            double price = iphone.getListedPrice(i);
+
+            if (price < lowestPrice) {
+                index = i;
+                lowestPrice = price;
             }
         }
         System.out.println("The lowest price is: " + lowestPrice);
 
-        if (index>0){
-            iphone.uruneGit.get(index-1).click();
+        if (index > 0) {
+            iphone.uruneGit.get(index - 1).click();
         }
         iphone.sepeteEkle.click();
     }
@@ -111,8 +115,7 @@ public class NavigateToWebSite {
     @Then("verify product is added to cart")
     public void verifyProductIsAddedToCart() {
         BrowserUtils.waitFor(5);
-        System.out.println("iphone.ürünSepetinizde.getAttribute(\"innerHTML\") = " + iphone.ürünSepetinizde.getAttribute("innerHTML"));
-        Assert.assertEquals("ürün sepetinizde listelenmedi","Ürün sepetinizde",iphone.ürünSepetinizde.getText());
+        Assert.assertEquals("ürün sepetinizde listelenmedi", "Ürün sepetinizde", iphone.ürünSepetinizde.getText());
     }
 
 
@@ -138,4 +141,35 @@ public class NavigateToWebSite {
             degerlendirmeExist = false;
         }
     }
+
+    Double productPrice = 0.0;
+
+    @And("Store the price from the selected product")
+    public void storeThePriceFromTheSelectedProduct() {
+        productPrice = iphone.getListedPrice(0);
+    }
+
+    @And("Add product to cart")
+    public void addProductToCart() {
+        try {
+
+
+            // Wait for modal to appear
+            WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(10));
+            WebElement modal = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[type='button']")));
+
+            // Dismiss the modal
+//            modal.findElement(By.cssSelector("close-button-selector")).click();
+
+            System.out.println("Modal handled successfully.");
+        } catch (NoSuchElementException e) {
+            System.out.println("Modal not found.");
+        } catch (Exception e) {
+            System.out.println("Unexpected error: " + e.getMessage());
+        }
+//        cart.sepeteGit.click();
+//        BrowserUtils.waitFor(2);
+    }
+
+
 }

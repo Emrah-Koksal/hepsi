@@ -14,3 +14,11 @@ Feature: Rate certain products
     Then Verify Diğer Satıcılar exists on the page
     When Compare prices and select the cheapest one
     Then verify product is added to cart
+
+  @S3
+  Scenario: Add product to cart
+    When Search for iphones and select a random product
+    And Store the price from the selected product
+    And Add product to cart
+#    Then Verify price from product page matches price from cart
+

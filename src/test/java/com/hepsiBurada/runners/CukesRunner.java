@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
         features = "src/test/resources/features",
         glue = "com/hepsiBurada/step_definitions",
         dryRun = false,
-        tags = "@S2"
+        tags = "@api"
 )
 public class CukesRunner {
 }

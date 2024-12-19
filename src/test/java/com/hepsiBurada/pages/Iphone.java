@@ -40,4 +40,13 @@ public class Iphone extends BasePage {
     @FindBy(css = ".checkoutui-ProductOnBasketHeader-nOvp_U8bHbLzgKbSUFaz")
     public WebElement ürünSepetinizde;
 
+
+    public Double getListedPrice (int index){
+
+        int indexOfCut = listedPrice.get(index).getText().length() - 4;
+        String editedPriceText = listedPrice.get(index).getText().replace(".", "").replace(",", ".").substring(0, indexOfCut);
+        return Double.valueOf(editedPriceText);
+
+    }
+
 }
