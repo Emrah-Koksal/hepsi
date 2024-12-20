@@ -34,14 +34,11 @@ public class Iphone extends BasePage {
     @FindBy(xpath = "//*[.='Ürüne git']")
     public List<WebElement> uruneGit;
 
-//    @FindBy(xpath = "//*[.=' Ürün sepetinizde']")
-//    public WebElement ürünSepetinizde;
-
     @FindBy(css = ".checkoutui-ProductOnBasketHeader-nOvp_U8bHbLzgKbSUFaz")
     public WebElement ürünSepetinizde;
 
 
-    public Double getListedPrice (int index){
+    public Double getListedPrice(int index) {
 
         int indexOfCut = listedPrice.get(index).getText().length() - 4;
         String editedPriceText = listedPrice.get(index).getText().replace(".", "").replace(",", ".").substring(0, indexOfCut);

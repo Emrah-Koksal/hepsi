@@ -7,9 +7,9 @@ Feature: Test API
     Then Verify response status code as <statusCode>
     Then Assert API results with the info of Pet's "<name>" , "<status>"
     Examples:
-      | id  | name     | status    | statusCode |
-      | 100 | Michelle | sold      | 200        |
-      | 101 | Harley   | available | 200        |
+      | id  | name   | status    | statusCode |
+      | 100 | doggie | available | 200        |
+      | 101 | Harley | available | 200        |
 
 
   @api @api2

@@ -1,21 +1,15 @@
 package com.hepsiBurada.pages;
 
 import com.hepsiBurada.utilities.Driver;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
-import java.time.Duration;
 import java.util.List;
 import java.util.Random;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public abstract class BasePage {
-    public BasePage(){
-        PageFactory.initElements(Driver.get(),this);
+    public BasePage() {
+        PageFactory.initElements(Driver.get(), this);
     }
 
     @FindBy(css = "div .initialComponent-hk7c_9tvgJ8ELzRuGJwC")
@@ -37,15 +31,15 @@ public abstract class BasePage {
 
     }
 
-public void acceptCookies(){
+    public void acceptCookies() {
 
-    try {
-        acceptCookieButton.click();
-        System.out.println("Cookies are accepted");
-    } catch (Exception e) {
-        throw new RuntimeException(e);
+        try {
+            acceptCookieButton.click();
+            System.out.println("Cookies are accepted");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
-}
 
 
 }
