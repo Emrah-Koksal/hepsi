@@ -115,6 +115,8 @@ public class NavigateToWebSite {
     @Then("verify product is added to cart")
     public void verifyProductIsAddedToCart() {
         BrowserUtils.waitFor(5);
+        System.out.println("iphone.ürünSepetinizde.getText() = " + iphone.ürünSepetinizde.getText());
+
         Assert.assertEquals("ürün sepetinizde listelenmedi", "Ürün sepetinizde", iphone.ürünSepetinizde.getText());
     }
 
@@ -147,29 +149,30 @@ public class NavigateToWebSite {
     @And("Store the price from the selected product")
     public void storeThePriceFromTheSelectedProduct() {
         productPrice = iphone.getListedPrice(0);
+        BrowserUtils.waitFor(2);
+        BrowserUtils.scrollToElement(iphone.sepeteEkle);
+        iphone.sepeteEkle.click();
+        BrowserUtils.waitFor(2);
+
     }
 
     @And("Add product to cart")
     public void addProductToCart() {
-        try {
-
-
-            // Wait for modal to appear
-            WebDriverWait wait = new WebDriverWait(Driver.get(), Duration.ofSeconds(10));
-            WebElement modal = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[type='button']")));
-
-            // Dismiss the modal
-//            modal.findElement(By.cssSelector("close-button-selector")).click();
-
-            System.out.println("Modal handled successfully.");
-        } catch (NoSuchElementException e) {
-            System.out.println("Modal not found.");
-        } catch (Exception e) {
-            System.out.println("Unexpected error: " + e.getMessage());
-        }
-//        cart.sepeteGit.click();
-//        BrowserUtils.waitFor(2);
+        System.out.println("add to product step");
+        BrowserUtils.waitFor(5);
+        cart.sepeteGit.click();
+        BrowserUtils.waitFor(2);
     }
 
 
+    @Then("Verify price from product page matches price from cart")
+    public void verifyPriceFromProductPageMatchesPriceFromCart() {
+        BrowserUtils.waitFor(2);
+        double cartPrice = cart.getCartPrice();
+        System.out.println("cartPrice = " + cartPrice);
+        System.out.println("productPrice = " + productPrice);
+
+        Assert.assertEquals(productPrice, cartPrice, 0.0);
+
+    }
 }
