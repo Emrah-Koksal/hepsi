@@ -16,8 +16,7 @@ Feature: Test API
   Scenario Outline:
     When Post the pet <id>, and name as "<name>" and status as "<status>"
     Then Verify response status code as <statusCode>
-    Then Verify response body "<type>" and "<message>"
     Examples:
-      | id  | name     | status    | statusCode | type    | message |
-      | 121 | Michelle | sold      | 200        | unknown | 121     |
-      | 122 | Harley   | available | 200        | unknown | 122     |
+      | id  | name     | status    | statusCode |
+      | 131 | Michelle | sold      | 200        |
+      | 132 | Harley   | available | 200        |

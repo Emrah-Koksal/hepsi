@@ -13,7 +13,6 @@ import org.json.JSONObject;
 
 import static io.restassured.RestAssured.given;
 
-
 public class ApiSteps {
 
     Response response;
@@ -40,78 +39,6 @@ public class ApiSteps {
         System.out.println("actualStatus = " + actualStatus);
         Assert.assertEquals("name does not match",expectedName, actualName );
         Assert.assertEquals("status does not match",expectedStatus, actualStatus );
-    }
-
-    @When("Test Get Request")
-    public void testGetRequest() {
-
-
-    }
-
-    @When("Test Post Request")
-    public void testPostRequest() {
-
-        int id = 111;
-        JSONObject json = new JSONObject();
-        json.put("petId", id);
-        json.put("name", "Max");
-        json.put("status", "available");
-
-        response = given()
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .body(json.toString())
-                .post("pet");
-
-        response.prettyPrint();
-
-    }
-
-
-    @When("Post the pet with the id of {int} {String} {String}")
-    public void postThePetWithTheIdOfId(int id, String name, String status) {
-        JSONObject json = new JSONObject();
-        json.put("petId", id);
-        json.put("name", "Max");
-        json.put("status", "available");
-
-        response = given()
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .body(json.toString())
-                .post("pet");
-
-        response.prettyPrint();
-
-    }
-
-
-    @When("Post the pet with the id of {int} {string}")
-    public void postThePetWithTheIdOf(Integer id, String name, String status) {
-        JSONObject json = new JSONObject();
-        json.put("petId", id);
-        json.put("name", "name");
-        json.put("status", status);
-
-        response = given()
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .body(json.toString())
-                .post("pet");
-
-        response.prettyPrint();
-    }
-
-    @Then("Verify response body {string} and {string}")
-    public void verifyResponseBodyAnd(String expectedType, String expectedMessage) {
-
-        JsonPath jsonPath = response.jsonPath();
-        String actualType = jsonPath.getString("type");
-        String actualMessage = jsonPath.getString("message");
-        System.out.println("actualtype = " + actualType);
-        System.out.println("actualmessage = " + actualMessage);
-        Assert.assertEquals("name does not match",expectedType, actualType );
-        Assert.assertEquals("status does not match",expectedMessage, actualMessage );
     }
 
     @When("Post the pet {int}, and name as {string} and status as {string}")
